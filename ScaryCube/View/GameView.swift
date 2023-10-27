@@ -48,7 +48,7 @@ struct GameView: View {
                         .stroke(.blue, style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round))
                         .rotationEffect(Angle(degrees: -90))
                         .animation(Animation.easeInOut(duration: 1), value: viewModel.time)
-                        .padding([.top, .bottom, .horizontal])
+                        .padding()
                     
                     VStack {
                         Text("Time Remaining: \(viewModel.time)")
