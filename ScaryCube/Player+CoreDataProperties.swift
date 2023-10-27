@@ -26,7 +26,7 @@ extension Player {
     
     public var pointsLists: [Game] {
         let points = points as? Set<Game> ?? []
-        return points.sorted { $0.point < $1.point }
+        return points.sorted { $0.wrappedPoint < $1.wrappedPoint }
     }
 }
 

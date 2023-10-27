@@ -2,7 +2,7 @@
 //  Game+CoreDataProperties.swift
 //  ScaryCube
 //
-//  Created by Isaque da Silva on 25/10/23.
+//  Created by Isaque da Silva on 26/10/23.
 //
 //
 
@@ -16,9 +16,12 @@ extension Game {
         return NSFetchRequest<Game>(entityName: "Game")
     }
 
-    @NSManaged public var point: Int16
+    @NSManaged public var point: String?
     @NSManaged public var player: Player?
-
+    
+    public var wrappedPoint: String {
+        point ?? "No point"
+    }
 }
 
 extension Game : Identifiable {

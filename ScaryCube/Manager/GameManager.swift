@@ -41,9 +41,9 @@ actor GameManager {
         save()
     }
     
-    func addNewPointToListPoints(_ number: Int) {
+    func addNewPointToListPoints(_ numbers: String) {
         let newPoint = Game(context: context)
-        newPoint.point = Int16(number)
+        newPoint.point = numbers
         
         guard let playerIndex = player.first else { return }
         newPoint.player = Player(context: context)

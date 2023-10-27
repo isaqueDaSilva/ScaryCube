@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AccountView: View {
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel: ProfileViewModel
     var body: some View {
         NavigationView {
@@ -18,7 +19,19 @@ struct AccountView: View {
                 
                 Section("Points") {
                     ForEach(viewModel.player!.pointsLists) {
-                        Text("\($0.point)")
+                        Text($0.wrappedPoint)
+                    }
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        HStack {
+                            Image(systemName: "chevron.left")
+                            Text("Back")
+                        }
                     }
                 }
             }

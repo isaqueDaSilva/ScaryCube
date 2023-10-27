@@ -40,8 +40,7 @@ extension GameView {
                 }
                 time = 5
                 Task {
-                    await manager.addNewPointToListPoints(firstSortedNumber)
-                    await manager.addNewPointToListPoints(secondSortedNumber)
+                    await manager.addNewPointToListPoints("\(firstSortedNumber), \(secondSortedNumber)")
                 }
             }
         }
