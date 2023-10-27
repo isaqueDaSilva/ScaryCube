@@ -26,8 +26,8 @@ extension HomeView {
             showingProfileView = true
         }
         
-        func startGame() {
-            showingGameView = true
+        func startOrPauseGame() {
+            showingGameView.toggle()
         }
         
         init() {

@@ -32,7 +32,7 @@ struct HomeView: View {
                     if viewModel.showingGameView == false {
                         Button {
                             withAnimation {
-                                viewModel.player == nil ? viewModel.startGame() : viewModel.showingProfile()
+                                viewModel.player != nil ? viewModel.startOrPauseGame() : viewModel.showingProfile()
                             }
                         } label: {
                             Text(viewModel.player != nil ? "Start the Game" : "Create an Account")
@@ -56,12 +56,25 @@ struct HomeView: View {
             }
             .preferredColorScheme(.dark)
             .toolbar {
-                Button(action: {
-                    viewModel.showingProfile()
-                }, label: {
-                    Image(systemName: "person.crop.circle")
-                        .font(.title2)
-                })
+                ToolbarItem {
+                    Button {
+                        viewModel.showingProfile()
+                    } label: {
+                        Image(systemName: "person.crop.circle")
+                            .font(.title2)
+                    }
+                }
+                
+                ToolbarItem(placement: .topBarLeading) {
+                    if viewModel.showingGameView {
+                        Button {
+                            viewModel.startOrPauseGame()
+                        } label: {
+                            Image(systemName: "arrowshape.turn.up.backward.fill")
+                                .font(.title2)
+                        }
+                    }
+                }
             }
             .sheet(isPresented: $viewModel.showingProfileView, onDismiss: viewModel.getPlayer, content: {
                 ProfileView()
