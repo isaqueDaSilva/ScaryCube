@@ -14,11 +14,11 @@ struct AccountView: View {
         NavigationView {
             List {
                 Section("User Information:") {
-                    Text(viewModel.player!.wrappedUsername)
+                    Text(viewModel.playerInformations()?.wrappedUsername ?? "")
                 }
                 
                 Section("Points") {
-                    ForEach(viewModel.player!.pointsLists) {
+                    ForEach(viewModel.playerInformations()?.pointsLists ?? []) {
                         Text($0.wrappedPoint)
                     }
                 }
@@ -31,6 +31,16 @@ struct AccountView: View {
                         HStack {
                             Image(systemName: "chevron.left")
                             Text("Back")
+                        }
+                    }
+                }
+                
+                ToolbarItem {
+                    Button {
+                        viewModel.deletePlayer()
+                    } label: {
+                        HStack {
+                            Image(systemName: "trash.fill")
                         }
                     }
                 }

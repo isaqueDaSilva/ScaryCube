@@ -11,14 +11,14 @@ extension HomeView {
     class HomeViewModel: ObservableObject {
         let manager = GameManager.shared
         
-        @Published var player: Player?
+        @MainActor @Published var player = [Player]()
         @Published var showingProfileView = false
         @Published var showingGameView = false
         
         func getPlayer() {
             Task { @MainActor in
-                guard let playerIndex = await manager.player.first else { return }
-                self.player = playerIndex
+                await manager.fetchPlayer()
+                self.player = await manager.player
             }
         }
         

@@ -10,16 +10,25 @@ import Foundation
 class ProfileViewModel: ObservableObject {
     let manager = GameManager.shared
     
-    @Published var player: Player?
+    @Published var player = [Player]()
     @Published var profileState: ProfileState = .nonCreated
     @Published var username = ""
     
     func getPlayer() {
         Task { @MainActor in
-            guard let playerIndex = await manager.player.first else { return }
-            self.player = playerIndex
-            if player != nil { profileState = .created }
+            await manager.fetchPlayer()
+            self.player = await manager.player
+            if !player.isEmpty {
+                profileState = .created
+            } else {
+                profileState = .nonCreated
+            }
         }
+    }
+    
+    @MainActor func playerInformations() -> Player? {
+        guard let playerIndex = player.first else { return nil }
+        return playerIndex
     }
     
     func createProfile() {

@@ -12,45 +12,45 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView {
-            ZStack {
-                GeometryReader { geo in
-                    Image(.scary)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: geo.size.width)
-                        .ignoresSafeArea()
-                }
-                
-                VStack {
-                    if viewModel.showingGameView == false {
-                        Text("Welcome to ScaryCube")
-                            .font(.title.bold())
-                            .padding(.top, 50)
+            GeometryReader { fullView in
+                ZStack {
+                    GeometryReader { geo in
+                        Image(.scary)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: geo.size.width)
+                            .ignoresSafeArea()
                     }
-                    Spacer()
                     
-                    if viewModel.showingGameView == false {
-                        Button {
-                            withAnimation {
-                                viewModel.player != nil ? viewModel.startOrPauseGame() : viewModel.showingProfile()
-                            }
-                        } label: {
-                            Text(viewModel.player != nil ? "Start the Game" : "Create an Account")
-                                .font(.title3.bold())
-                                .foregroundColor(.white)
-                                .padding(10)
-                                .background(.blue)
-                                .cornerRadius(10)
+                    VStack {
+                        if viewModel.showingGameView == false {
+                            Text("Welcome to ScaryCube")
+                                .font(.title.bold())
+                                .padding(.top, 50)
                         }
-                        .padding(.bottom, 150)
-                    } else {
-                       GameView()
-                            .frame(maxWidth: 400, maxHeight: 550)
-                            .background(.thinMaterial)
-                            .cornerRadius(20)
-                            .shadow(radius: 10)
-                            .padding(.horizontal)
-                            .padding(.bottom, 100)
+                        
+                        if viewModel.showingGameView {
+                            GameView()
+                                .frame(width: fullView.size.width * 0.9, height: fullView.size.height * 0.65)
+                                .background(.thinMaterial)
+                                .cornerRadius(20)
+                                .shadow(radius: 10)
+                        } else {
+                            Spacer()
+                            Button {
+                                withAnimation {
+                                    !viewModel.player.isEmpty ? viewModel.startOrPauseGame() : viewModel.showingProfile()
+                                }
+                            } label: {
+                                Text(!viewModel.player.isEmpty ? "Start the Game" : "Create an Account")
+                                    .font(.title3.bold())
+                                    .foregroundColor(.white)
+                                    .padding(10)
+                                    .background(.blue)
+                                    .cornerRadius(10)
+                            }
+                            .padding(.bottom, 150)
+                        }
                     }
                 }
             }
@@ -68,7 +68,9 @@ struct HomeView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     if viewModel.showingGameView {
                         Button {
-                            viewModel.startOrPauseGame()
+                            withAnimation {
+                                viewModel.startOrPauseGame()
+                            }
                         } label: {
                             Image(systemName: "arrowshape.turn.up.backward.fill")
                                 .font(.title2)
@@ -81,8 +83,4 @@ struct HomeView: View {
             })
         }
     }
-}
-
-#Preview {
-    HomeView()
 }
