@@ -20,6 +20,14 @@ extension Player {
     @NSManaged public var username: String?
     @NSManaged public var points: NSSet?
 
+    public var wrappedUsername: String {
+        username ?? "Unknown Username"
+    }
+    
+    public var pointsLists: [Game] {
+        let points = points as? Set<Game> ?? []
+        return points.sorted { $0.point < $1.point }
+    }
 }
 
 // MARK: Generated accessors for points
